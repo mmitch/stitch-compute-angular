@@ -1,0 +1,52 @@
+---
+name: CI CD
+
+on:
+  push:
+  pull_request:
+    types: [opened]
+
+jobs:
+  build:
+    name: Developer build in Node.js matrix
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 15.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Build app in development mode
+        run: |
+          npm ci
+          npm run build --if-present
+
+  deploy:
+    name: Deploy to GitHub Pages
+
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+
+    needs: [build]
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 15.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15.x
+      - name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm ci
+          npm run -- ng build --prod --base-href /stitch-compute/
+          npm install angular-cli-ghpages
+          ./node_modules/.bin/angular-cli-ghpages --dir dist/app --no-silent --name 'CI/CD deployment' --email 'devnull@cgarbs.de'
