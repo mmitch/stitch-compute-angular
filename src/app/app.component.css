@@ -1,0 +1,40 @@
+html {
+  font-family: sans-serif, sans;
+}
+
+form {
+  margin: 2em;
+  background: #ded;
+  padding: 1em;
+  border-radius: 0.8em;
+  display: grid;
+  grid-template-columns: 1fr auto auto 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: ". label input ." ". label input .";
+  row-gap: 1em;
+  column-gap: 1em;
+  align-items: center;
+}
+
+label.label {
+  grid-column-start: 2;
+}
+
+input.input {
+  grid-column-start: 3;
+}
+
+div#input {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+div#result {
+  margin: 2em;
+  background: #eed;
+  padding: 1em;
+  border-radius: 0.8em;
+  font-weight: bold;
+  text-align: center;
+}

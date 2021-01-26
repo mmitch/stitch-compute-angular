@@ -1,15 +1,14 @@
 <form [formGroup]="input">
-  <label>
-    From:
-    <input type="number" (input)="recalculate()" formControlName="from" min="1" max="512" required>
-  </label>
-  <br>
-  <label>
-    To:
-    <input type="number" (input)="recalculate()" formControlName="to" min="1" max="512" required>
-  </label>
+    <label class="label">
+      From:
+    </label>
+    <input class="input" type="number" (input)="recalculate()" formControlName="from" min="1" max="512" required>
+    <label class="label">
+      To:
+    </label>
+    <input class="input" type="number" (input)="recalculate()" formControlName="to" min="1" max="512" required>
 </form>
 
-<div>
+<div id="result">
   {{ result }}
 </div>
