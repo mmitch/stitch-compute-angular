@@ -49,4 +49,4 @@ jobs:
           npm ci
           npm run -- ng build --prod --base-href /stitch-compute/
           npm install angular-cli-ghpages
-          ./node_modules/.bin/angular-cli-ghpages --dir dist/app --no-silent --name 'CI/CD deployment' --email 'devnull@cgarbs.de'
+          ./node_modules/.bin/angular-cli-ghpages --dir dist/stitch-compute-angular --no-silent --name 'CI/CD deployment' --email 'devnull@cgarbs.de'
