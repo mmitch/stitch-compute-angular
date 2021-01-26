@@ -47,6 +47,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm ci
-          npm run -- ng build --prod --base-href /stitch-compute/
+          npm run -- ng build --prod --base-href /stitch-compute-angular/
           npm install angular-cli-ghpages
           ./node_modules/.bin/angular-cli-ghpages --dir dist/stitch-compute-angular --no-silent --name 'CI/CD deployment' --email 'devnull@cgarbs.de'
