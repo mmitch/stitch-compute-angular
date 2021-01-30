@@ -18,10 +18,12 @@ form {
 
 label.label {
   grid-column-start: 2;
+  font-size: 120%;
 }
 
 input.input {
   grid-column-start: 3;
+  font-size: 160%;
 }
 
 div#input {
@@ -31,6 +33,7 @@ div#input {
 }
 
 div#result {
+  font-size: 140%;
   margin: 2em;
   background: #eed;
   padding: 1em;

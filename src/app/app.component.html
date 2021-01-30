@@ -2,11 +2,11 @@
     <label class="label">
       From:
     </label>
-    <input class="input" type="number" (input)="recalculate()" formControlName="from" min="1" max="512" required>
+    <input class="input" type="number" (input)="recalculate()" formControlName="from" size="3" min="1" max="512" required>
     <label class="label">
       To:
     </label>
-    <input class="input" type="number" (input)="recalculate()" formControlName="to" min="1" max="512" required>
+    <input class="input" type="number" (input)="recalculate()" formControlName="to" size="3" min="1" max="512" required>
 </form>
 
 <div id="result">
