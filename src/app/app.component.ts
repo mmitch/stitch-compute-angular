@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BuildInfo } from 'src/environments/buildinfo';
 import { StitchCompute } from 'stitch-compute';
@@ -8,7 +8,7 @@ import { StitchCompute } from 'stitch-compute';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   readonly input = new FormGroup({
     from: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
     to: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
