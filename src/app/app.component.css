@@ -4,13 +4,9 @@ div,
   font-family: sans-serif, sans;
 }
 
-body {
-  background-color: #fff;
-}
-
 form {
   margin: 2em;
-  background: #cec;
+  background-color: var(--input-bg-color);
   padding: 1em;
   border-radius: 0.8em;
   display: grid;
@@ -25,15 +21,19 @@ form {
 label.label {
   grid-column-start: 2;
   font-size: 120%;
+  color: var(--main-text-color);
 }
 
 input.input {
   grid-column-start: 3;
   font-size: 160%;
+  color: var(--emph-text-color);
+  background-color: var(--emph-bg-color);
 }
 
 p {
   font-size: 120%;
+  color: var(--main-text-color);
 }
 
 div#input {
@@ -45,7 +45,8 @@ div#input {
 div#result {
   font-size: 140%;
   margin: 2em;
-  background: #eec;
+  background-color: var(--output-bg-color);
+  color: var(--emph-text-color);
   padding: 1em;
   border-radius: 0.8em;
   font-weight: bold;
@@ -55,7 +56,7 @@ div#result {
 div#grayout {
   position: fixed;
   display: block;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--grayout-color);
   top: 0;
   left: 0;
   bottom: 0;
@@ -65,7 +66,7 @@ div#grayout {
 }
 
 div#help {
-  background: #fff;
+  background-color: var(--help-bg-color);
   position: relative;
   border-radius: 0.8em;
   margin: 2em;
@@ -73,9 +74,9 @@ div#help {
 }
 
 .button {
-  background-color: #ecc;
+  background-color: var(--button-bg-color);
+  color: var(--emph-text-color);
   border: none;
-  color: black;
   padding: 0.4em 1em;
   border-radius: 0.4em;
   text-align: center;
@@ -83,20 +84,25 @@ div#help {
   display: inline-block;
   font-size: 120%;
   cursor: pointer;
-  box-shadow: 0.1em 0.1em rgba(0, 0, 0, 0.2);
+  box-shadow: 0.1em 0.1em var(--shadow-color);
   margin: 0.5em 0;
 }
 
 div#buildinfo {
   position: absolute;
   font-size: 70%;
-  color: #000;
+  color: var(--debug-text-color);
   right: 1em;
   bottom: 0.5em;
+}
+
+i,
+b {
+  color: var(--emph-text-color);
 }
 
 a#project,
 a#project:visited,
 a#project:focus {
-  color: #000;
+  color: var(--emph-text-color);
 }
