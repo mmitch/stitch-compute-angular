@@ -14,6 +14,7 @@ export class AppComponent {
     to: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
   });
   stitches = new StitchCompute();
+  isHelpVisible = false;
 
   ngOnInit(): void {
     this.recalculate();
@@ -37,6 +38,14 @@ export class AppComponent {
     else {
       this.result = '';
     }
+  }
+
+  public openHelp(): void {
+    this.isHelpVisible = true;
+  }
+
+  public closeHelp(): void {
+    this.isHelpVisible = false;
   }
 
   private getFrom(): number {

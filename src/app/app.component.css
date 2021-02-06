@@ -1,5 +1,11 @@
-html {
+label,
+div,
+.button {
   font-family: sans-serif, sans;
+}
+
+body {
+  background-color: #fff;
 }
 
 form {
@@ -26,6 +32,10 @@ input.input {
   font-size: 160%;
 }
 
+p {
+  font-size: 120%;
+}
+
 div#input {
   margin-left: auto;
   margin-right: auto;
@@ -40,4 +50,38 @@ div#result {
   border-radius: 0.8em;
   font-weight: bold;
   text-align: center;
+}
+
+div#grayout {
+  position: fixed;
+  display: block;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+
+div#help {
+  background: #fff;
+  position: relative;
+  border-radius: 0.8em;
+  margin: 2em;
+  padding: 1em 2em;
+}
+
+.button {
+  background-color: #edd;
+  border: none;
+  color: black;
+  padding: 0.4em 1em;
+  border-radius: 0.4em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 120%;
+  cursor: pointer;
+  box-shadow: 0.1em 0.1em rgba(0, 0, 0, 0.2);
 }
