@@ -69,8 +69,10 @@ div#help {
   background-color: var(--help-bg-color);
   position: relative;
   border-radius: 0.8em;
-  margin: 2em;
+  margin: 5vh 5vw;
   padding: 1em 2em;
+  overflow: auto;
+  max-height: 85vh;
 }
 
 .button {
