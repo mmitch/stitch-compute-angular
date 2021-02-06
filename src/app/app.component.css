@@ -85,3 +85,11 @@ div#help {
   cursor: pointer;
   box-shadow: 0.1em 0.1em rgba(0, 0, 0, 0.2);
 }
+
+div#buildinfo {
+  position: absolute;
+  font-size: 70%;
+  color: #000;
+  right: 1em;
+  bottom: 0.5em;
+}
