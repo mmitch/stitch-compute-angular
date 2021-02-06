@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { BuildInfo } from 'src/environments/buildinfo';
+import { BUILD_INFO } from 'src/environments/buildinfo';
 import { StitchCompute } from 'stitch-compute';
 
 @Component({
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
     to: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
   });
   readonly stitches = new StitchCompute();
-  readonly buildInfo = BuildInfo;
+  readonly buildInfo = BUILD_INFO;
   result = '';
   isHelpVisible = false;
 
