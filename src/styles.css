@@ -12,6 +12,22 @@
   --shadow-color: rgba(0, 0, 0, 0.2);
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-text-color: #839496;
+    --emph-text-color: #93a1a1;
+    --debug-text-color: #888888;
+    --main-bg-color: #002b36;
+    --emph-bg-color: #073642;
+    --input-bg-color: #442244;
+    --output-bg-color: #222244;
+    --button-bg-color: #224422;
+    --help-bg-color: #002b36;
+    --grayout-color: rgba(0, 0, 0, 0.6);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+  }
+}
+
 body {
   background-color: var(--main-bg-color);
 }
