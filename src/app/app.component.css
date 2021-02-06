@@ -94,3 +94,9 @@ div#buildinfo {
   right: 1em;
   bottom: 0.5em;
 }
+
+a#project,
+a#project:visited,
+a#project:focus {
+  color: #000;
+}
