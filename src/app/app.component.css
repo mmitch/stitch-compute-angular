@@ -10,7 +10,7 @@ body {
 
 form {
   margin: 2em;
-  background: #ded;
+  background: #cec;
   padding: 1em;
   border-radius: 0.8em;
   display: grid;
@@ -45,7 +45,7 @@ div#input {
 div#result {
   font-size: 140%;
   margin: 2em;
-  background: #eed;
+  background: #eec;
   padding: 1em;
   border-radius: 0.8em;
   font-weight: bold;
@@ -73,7 +73,7 @@ div#help {
 }
 
 .button {
-  background-color: #edd;
+  background-color: #ecc;
   border: none;
   color: black;
   padding: 0.4em 1em;
