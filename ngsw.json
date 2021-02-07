@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1612729277022,
+  "timestamp": 1612730079517,
   "index": "/stitch-compute-angular/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/stitch-compute-angular/favicon.ico",
         "/stitch-compute-angular/index.html",
-        "/stitch-compute-angular/main.0c5939a532564011de74.js",
+        "/stitch-compute-angular/main.492981d0f5f2c41dcd09.js",
         "/stitch-compute-angular/manifest.webmanifest",
         "/stitch-compute-angular/polyfills.d15628b9ba7248669cd9.js",
         "/stitch-compute-angular/runtime.7b63b9fd40098a2e8207.js",
@@ -52,8 +52,8 @@
     "/stitch-compute-angular/assets/icons/icon-72x72.png": "e39b42e53690f14a45120e4f25bb52a1d60ef97a",
     "/stitch-compute-angular/assets/icons/icon-96x96.png": "a46ae7dff3a2c421b46de18153d9d148ba9d7383",
     "/stitch-compute-angular/favicon.ico": "a4dbf8fcf33c4105e69b69ba125824b57930ca4c",
-    "/stitch-compute-angular/index.html": "5d3943974e71b8b479842d45028644e4bbb05c49",
-    "/stitch-compute-angular/main.0c5939a532564011de74.js": "54ba5766a82e399b12b6cae6b52cad7fa908273c",
+    "/stitch-compute-angular/index.html": "1d2189b3dd997ad1bf3977248e4a1d8be67f515f",
+    "/stitch-compute-angular/main.492981d0f5f2c41dcd09.js": "2d6341c074830a0786bcb8b451a3e0099db63595",
     "/stitch-compute-angular/manifest.webmanifest": "6b9541cbcd65990315838c7c6598308cc1482327",
     "/stitch-compute-angular/polyfills.d15628b9ba7248669cd9.js": "f888b31e000d9b05c8c3fef19c325d813f2b7e1b",
     "/stitch-compute-angular/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
