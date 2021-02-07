@@ -12,7 +12,7 @@ form {
   display: grid;
   grid-template-columns: 1fr auto auto 1fr;
   grid-template-rows: 1fr 1fr;
-  grid-template-areas: ". label input ." ". label input .";
+  grid-template-areas: '. label input .' '. label input .';
   row-gap: 1em;
   column-gap: 1em;
   align-items: center;

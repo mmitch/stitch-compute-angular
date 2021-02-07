@@ -8,7 +8,7 @@
     "build-prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "prettier-format": "prettier --config .prettierrc '{src,e2e}/**/*.ts' 'src/**/*.html' '**/*.md' '{src,e2e}/**/*.json' --write",
+    "prettier-format": "prettier --config .prettierrc --write .",
     "e2e": "ng e2e"
   },
   "private": true,
