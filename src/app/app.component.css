@@ -38,6 +38,11 @@ input.input:invalid {
   box-shadow: 0 0 3px 3px var(--invalid-color);
 }
 
+div#error {
+  color: var(--main-text-color);
+  font-weight: normal;
+}
+
 p {
   font-size: 120%;
   color: var(--main-text-color);

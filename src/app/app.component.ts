@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   readonly stitches = new StitchCompute();
   readonly buildInfo = BUILD_INFO;
   result = '';
+  error = '';
   isHelpVisible = false;
 
   ngOnInit(): void {
@@ -25,21 +26,31 @@ export class AppComponent implements OnInit {
   recalculate(): void {
     if (this.input.status === 'VALID') {
       try {
-        this.result = this.stitches.adjust_evenly(this.getFrom(), this.getTo());
+        this.setResult(this.stitches.adjust_evenly(this.getFrom(), this.getTo()));
       }
       catch (e) {
         if (e instanceof Error) {
-          this.result = e.message;
+          this.setError(e.message);
         }
         else {
-          this.result = '';
+          this.setError('uncaught error');
           throw e;
         }
       }
     }
     else {
-      this.result = '';
+      this.setError('invalid input');
     }
+  }
+
+  setResult(result: string): void {
+    this.result = result;
+    this.error = '';
+  }
+
+  setError(error: string): void {
+    this.result = '';
+    this.error = error;
   }
 
   public openHelp(): void {
