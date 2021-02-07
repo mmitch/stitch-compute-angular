@@ -10,6 +10,7 @@
   --help-bg-color: #fdf6e3;
   --grayout-color: rgba(0, 0, 0, 0.4);
   --shadow-color: rgba(0, 0, 0, 0.2);
+  --invalid-color: #dc322f;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -25,6 +26,7 @@
     --help-bg-color: #002b36;
     --grayout-color: rgba(0, 0, 0, 0.6);
     --shadow-color: rgba(0, 0, 0, 0.2);
+    --invalid-color: #dc322f;
   }
 }
 

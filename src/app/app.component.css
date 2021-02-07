@@ -32,6 +32,12 @@ input.input {
   background-color: var(--emph-bg-color);
 }
 
+input.input:invalid {
+  border: 2px solid var(--invalid-color);
+  color: var(--invalid-color);
+  box-shadow: 0 0 3px 3px var(--invalid-color);
+}
+
 p {
   font-size: 120%;
   color: var(--main-text-color);
