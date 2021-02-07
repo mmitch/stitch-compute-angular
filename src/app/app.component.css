@@ -27,6 +27,7 @@ label.label {
 input.input {
   grid-column-start: 3;
   font-size: 160%;
+  font-weight: bold;
   color: var(--emph-text-color);
   background-color: var(--emph-bg-color);
 }
