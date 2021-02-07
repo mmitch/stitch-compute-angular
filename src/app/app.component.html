@@ -1,12 +1,17 @@
 <form [formGroup]="input">
-    <label class="label">
-      From:
-    </label>
-    <input class="input" type="number" (input)="recalculate()" formControlName="from" size="3" min="1" max="512" required>
-    <label class="label">
-      To:
-    </label>
-    <input class="input" type="number" (input)="recalculate()" formControlName="to" size="3" min="1" max="512" required>
+  <label class="label">From:</label>
+  <input
+    class="input"
+    type="number"
+    (input)="recalculate()"
+    formControlName="from"
+    size="3"
+    min="1"
+    max="512"
+    required
+  />
+  <label class="label">To:</label>
+  <input class="input" type="number" (input)="recalculate()" formControlName="to" size="3" min="1" max="512" required />
 </form>
 
 <div id="result">
@@ -14,26 +19,26 @@
   <div id="error">{{ error }}</div>
 </div>
 
-<button type="button" class="button" (click)="openHelp()">
-  Help
-</button>
+<button type="button" class="button" (click)="openHelp()">Help</button>
 
 <div *ngIf="isHelpVisible" id="grayout" (click)="closeHelp()">
   <div id="help" (click)="closeHelp()">
     <h1><a id="project" href="https://github.com/mmitch/stitch-compute-angular">Stitch Compute</a></h1>
-    <p>Enter both the number of stitches on your current row (<b>From:</b>)
-      and the desired number of stitches on your next row (<b>To:</b>).</p>
-    <p>The result will be shown immediately and consist of instructions to
-      <i>keep</i> stitches (<b>K</b>), <i>add</i> extra stitches (<b>A</b>)
-      or <i>combine</i> two stitches into one (<b>C</b>).</p>
-    <p>The number after a letter is the number of repetitions, eg. <b>A2</b>
-      means <i>add two extra stitches</i>.</p>
-    <p>Global repetitions (<b>2x&nbsp;(&nbsp;</b>…<b>&nbsp;)</b>) instruct you to repeat all stitches
-      inside the parentheses the given number of times, eg. <b>3x&nbsp;(&nbsp;K1&nbsp;A1&nbsp;)</b>
-      is a shorter version of <b>K1&nbsp;A1&nbsp;K1&nbsp;A1&nbsp;K1&nbsp;A1</b>.</p>
-    <button type="button" class="button" (click)="closeHelp()">
-      Close
-    </button>
+    <p>
+      Enter both the number of stitches on your current row (<b>From:</b>) and the desired number of stitches on your
+      next row (<b>To:</b>).
+    </p>
+    <p>
+      The result will be shown immediately and consist of instructions to <i>keep</i> stitches (<b>K</b>),
+      <i>add</i> extra stitches (<b>A</b>) or <i>combine</i> two stitches into one (<b>C</b>).
+    </p>
+    <p>The number after a letter is the number of repetitions, eg. <b>A2</b> means <i>add two extra stitches</i>.</p>
+    <p>
+      Global repetitions (<b>2x&nbsp;(&nbsp;</b>…<b>&nbsp;)</b>) instruct you to repeat all stitches inside the
+      parentheses the given number of times, eg. <b>3x&nbsp;(&nbsp;K1&nbsp;A1&nbsp;)</b> is a shorter version of
+      <b>K1&nbsp;A1&nbsp;K1&nbsp;A1&nbsp;K1&nbsp;A1</b>.
+    </p>
+    <button type="button" class="button" (click)="closeHelp()">Close</button>
   </div>
   <div id="buildinfo">built {{ buildInfo.buildTime }} from {{ buildInfo.commit }} at {{ buildInfo.lastChange }}</div>
 </div>

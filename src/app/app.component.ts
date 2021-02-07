@@ -11,7 +11,7 @@ import { StitchCompute } from 'stitch-compute';
 export class AppComponent implements OnInit {
   readonly input = new FormGroup({
     from: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
-    to: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
+    to: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)])
   });
   readonly stitches = new StitchCompute();
   readonly buildInfo = BUILD_INFO;
@@ -27,18 +27,15 @@ export class AppComponent implements OnInit {
     if (this.input.status === 'VALID') {
       try {
         this.setResult(this.stitches.adjustEvenly(this.getFrom(), this.getTo()));
-      }
-      catch (e) {
+      } catch (e) {
         if (e instanceof Error) {
           this.setError(e.message);
-        }
-        else {
+        } else {
           this.setError('uncaught error');
           throw e;
         }
       }
-    }
-    else {
+    } else {
       this.setError('invalid input');
     }
   }
@@ -62,10 +59,10 @@ export class AppComponent implements OnInit {
   }
 
   private getFrom(): number {
-    return + this.input.value.from;
+    return +this.input.value.from;
   }
 
   private getTo(): number {
-    return + this.input.value.to;
+    return +this.input.value.to;
   }
 }
