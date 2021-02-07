@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
   recalculate(): void {
     if (this.input.status === 'VALID') {
       try {
-        this.setResult(this.stitches.adjust_evenly(this.getFrom(), this.getTo()));
+        this.setResult(this.stitches.adjustEvenly(this.getFrom(), this.getTo()));
       }
       catch (e) {
         if (e instanceof Error) {
