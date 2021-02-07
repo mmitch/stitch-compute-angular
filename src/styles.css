@@ -19,9 +19,9 @@
     --debug-text-color: #888888;
     --main-bg-color: #002b36;
     --emph-bg-color: #073642;
-    --input-bg-color: #442244;
-    --output-bg-color: #222244;
-    --button-bg-color: #224422;
+    --input-bg-color: #224422;
+    --output-bg-color: #444422;
+    --button-bg-color: #442244;
     --help-bg-color: #002b36;
     --grayout-color: rgba(0, 0, 0, 0.6);
     --shadow-color: rgba(0, 0, 0, 0.2);
