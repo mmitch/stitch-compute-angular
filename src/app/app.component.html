@@ -1,5 +1,5 @@
 <form [formGroup]="input">
-  <label class="label" i18n="label-input-from">From:</label>
+  <label class="label" i18n="@@label-input-from">From:</label>
   <input
     class="input"
     type="number"
@@ -10,7 +10,7 @@
     max="512"
     required
   />
-  <label class="label" i18n="label-input-to">To:</label>
+  <label class="label" i18n="@@label-input-to">To:</label>
   <input class="input" type="number" (input)="recalculate()" formControlName="to" size="3" min="1" max="512" required />
 </form>
 
@@ -19,30 +19,30 @@
   <div id="error">{{ error }}</div>
 </div>
 
-<button type="button" class="button" (click)="openHelp()" i18n="button-open-help">Help</button>
+<button type="button" class="button" (click)="openHelp()" i18n="@@button-open-help">Help</button>
 
 <div *ngIf="isHelpVisible" id="grayout" (click)="closeHelp()">
   <div id="help" (click)="closeHelp()">
     <h1><a id="project" href="https://github.com/mmitch/stitch-compute-angular">Stitch Compute</a></h1>
-    <p i18n>
+    <p i18n="@@help1">
       Enter both the number of stitches on your current row (<b>From:</b>) and the desired number of stitches on your
       next row (<b>To:</b>).
     </p>
-    <p i18n>
+    <p i18n="@@help2">
       The result will be shown immediately and consist of instructions to <i>keep</i> stitches (<b>K</b>),
       <i>add</i> extra stitches (<b>A</b>) or <i>combine</i> two stitches into one (<b>C</b>).
     </p>
-    <p i18n>
+    <p i18n="@@help3">
       The number after a letter is the number of repetitions, eg. <b>A2</b> means <i>add two extra stitches</i>.
     </p>
-    <p i18n>
+    <p i18n="@@help4">
       Global repetitions (<b>2x&nbsp;(&nbsp;</b>…<b>&nbsp;)</b>) instruct you to repeat all stitches inside the
       parentheses the given number of times, eg. <b>3x&nbsp;(&nbsp;K1&nbsp;A1&nbsp;)</b> is a shorter version of
       <b>K1&nbsp;A1&nbsp;K1&nbsp;A1&nbsp;K1&nbsp;A1</b>.
     </p>
-    <button type="button" class="button" (click)="closeHelp()" i18n="button-close-help">Close</button>
+    <button type="button" class="button" (click)="closeHelp()" i18n="@@button-close-help">Close</button>
   </div>
-  <div id="buildinfo" i18n="buildinfo">
+  <div id="buildinfo" i18n="@@buildinfo">
     built at {{ buildInfo.buildTime }} from {{ buildInfo.commit }}/{{ buildInfo.lastChange }}
   </div>
 </div>

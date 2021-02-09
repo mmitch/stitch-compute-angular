@@ -44,12 +44,12 @@ export class AppComponent implements OnInit {
         if (e instanceof Error) {
           this.setError(e.message);
         } else {
-          this.setError($localize`uncaught error`);
+          this.setError($localize`:@@errUncaughtError:uncaught error`);
           throw e;
         }
       }
     } else {
-      this.setError($localize`invalid input`);
+      this.setError($localize`:@@errInvalidInput:invalid input`);
     }
   }
 
