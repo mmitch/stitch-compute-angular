@@ -1,6 +1,11 @@
 {
   "locale": "de",
   "translations": {
+    "keepFormat": "B%d",
+    "addFormat": "H%d",
+    "combineFormat": "A%d",
+    "groupFormat": "%dx ( %s )",
+    "listSeparatorFormat": " ",
     "7434193617629304874": "unerwarteter Fehler",
     "6001872214554175288": "ungültige Eingabe",
     "5487630018331375668": "Von:",

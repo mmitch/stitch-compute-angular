@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BUILD_INFO } from 'src/environments/buildinfo';
-import { StitchCompute } from 'stitch-compute';
+import { FormatterSet, StitchCompute } from 'stitch-compute';
 
 import '@angular/localize/init'; // provides $localize
 
@@ -11,6 +11,13 @@ import '@angular/localize/init'; // provides $localize
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  readonly localizedFormatters: FormatterSet = {
+    keepStitches: $localize`:@@keepFormat:K%d`,
+    addStitches: $localize`:@@addFormat:A%d`,
+    combineStitches: $localize`:@@combineFormat:C%d`,
+    groupInstructions: $localize`:@@groupFormat:%dx ( %s )`,
+    listSeparator: $localize`:@@listSeparatorFormat: `
+  };
   readonly input = new FormGroup({
     from: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
     to: new FormControl('1', [Validators.required, Validators.min(1), Validators.max(512)])
@@ -22,6 +29,7 @@ export class AppComponent implements OnInit {
   isHelpVisible = false;
 
   ngOnInit(): void {
+    this.stitches.setFormatters(this.localizedFormatters);
     this.recalculate();
   }
 
