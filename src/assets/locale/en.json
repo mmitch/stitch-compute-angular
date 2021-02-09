@@ -8,6 +8,8 @@
     "listSeparatorFormat": " ",
     "7434193617629304874": "uncaught error",
     "6001872214554175288": "invalid input",
+    "errToTooBig": "too many stitches to add - {$PH} can grow to {$PH_1} max",
+    "errToTooSmall": "too few stitches to keep - {$PH} can shrink to {$PH_1} min",
     "5487630018331375668": "From:",
     "5752829569732845992": "To:",
     "7911416166208830577": "Help",

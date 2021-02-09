@@ -36,7 +36,10 @@ export class AppComponent implements OnInit {
   recalculate(): void {
     if (this.input.status === 'VALID') {
       try {
-        this.setResult(this.stitches.adjustEvenly(this.getFrom(), this.getTo()));
+        const from = this.getFrom();
+        const to = this.getTo();
+        this.validateInput(from, to);
+        this.setResult(this.stitches.adjustEvenly(from, to));
       } catch (e) {
         if (e instanceof Error) {
           this.setError(e.message);
@@ -74,5 +77,17 @@ export class AppComponent implements OnInit {
 
   private getTo(): number {
     return +this.input.value.to;
+  }
+
+  // duplicate checks from stitch-compute to allow for localized error messages
+  private validateInput(from: number, to: number) {
+    const max = 2 * from;
+    const min = Math.floor((from + 1) / 2);
+    if (to > max) {
+      throw new Error($localize`:@@errToTooBig:too many stitches to add - ${from} can grow to ${max} max`);
+    }
+    if (to < min) {
+      throw new Error($localize`:@@errToTooSmall:too few stitches to keep - ${from} can shrink to ${min} min`);
+    }
   }
 }
