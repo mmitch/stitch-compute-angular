@@ -13,7 +13,7 @@ if (environment.production) {
 const browserLang = getBrowserLang();
 const defaultLang = 'en';
 
-const pathToLang = (lang: string) => `/assets/locale/${lang}.json`;
+const pathToLang = (lang: string) => `assets/locale/${lang}.json`;
 
 getTranslations(pathToLang(browserLang))
   .then((data: ParsedTranslationBundle) => startup())
