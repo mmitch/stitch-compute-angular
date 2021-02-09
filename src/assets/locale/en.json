@@ -1,0 +1,16 @@
+{
+  "locale": "en",
+  "translations": {
+    "7434193617629304874": "uncaught error",
+    "6001872214554175288": "invalid input",
+    "5487630018331375668": "From:",
+    "5752829569732845992": "To:",
+    "7911416166208830577": "Help",
+    "3458639850258143903": " Enter both the number of stitches on your current row ({$START_BOLD_TEXT}From:{$CLOSE_BOLD_TEXT}) and the desired number of stitches on your next row ({$START_BOLD_TEXT}To:{$CLOSE_BOLD_TEXT}). ",
+    "7045433269409682025": " The result will be shown immediately and consist of instructions to {$START_ITALIC_TEXT}keep{$CLOSE_ITALIC_TEXT} stitches ({$START_BOLD_TEXT}K{$CLOSE_BOLD_TEXT}), {$START_ITALIC_TEXT}add{$CLOSE_ITALIC_TEXT} extra stitches ({$START_BOLD_TEXT}A{$CLOSE_BOLD_TEXT}) or {$START_ITALIC_TEXT}combine{$CLOSE_ITALIC_TEXT} two stitches into one ({$START_BOLD_TEXT}C{$CLOSE_BOLD_TEXT}). ",
+    "7657876253075509605": " The number after a letter is the number of repetitions, eg. {$START_BOLD_TEXT}A2{$CLOSE_BOLD_TEXT} means {$START_ITALIC_TEXT}add two extra stitches{$CLOSE_ITALIC_TEXT}. ",
+    "845518613416192196": " Global repetitions ({$START_BOLD_TEXT}2x ( {$CLOSE_BOLD_TEXT}…{$START_BOLD_TEXT} ){$CLOSE_BOLD_TEXT}) instruct you to repeat all stitches inside the parentheses the given number of times, eg. {$START_BOLD_TEXT}3x ( K1 A1 ){$CLOSE_BOLD_TEXT} is a shorter version of {$START_BOLD_TEXT}K1 A1 K1 A1 K1 A1{$CLOSE_BOLD_TEXT}. ",
+    "7819314041543176992": "Close",
+    "8973413093222852396": " built at {$INTERPOLATION} from {$INTERPOLATION_1}/{$INTERPOLATION_2} "
+  }
+}
