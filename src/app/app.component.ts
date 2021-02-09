@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BUILD_INFO } from 'src/environments/buildinfo';
 import { StitchCompute } from 'stitch-compute';
 
+import '@angular/localize/init'; // provides $localize
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -31,12 +33,12 @@ export class AppComponent implements OnInit {
         if (e instanceof Error) {
           this.setError(e.message);
         } else {
-          this.setError('uncaught error');
+          this.setError($localize`uncaught error`);
           throw e;
         }
       }
     } else {
-      this.setError('invalid input');
+      this.setError($localize`invalid input`);
     }
   }
 
