@@ -26,6 +26,7 @@
     "@angular/platform-browser-dynamic": "~11.1.0",
     "@angular/router": "~11.1.0",
     "@angular/service-worker": "~11.1.0",
+    "@locl/core": "^1.0.1",
     "rxjs": "~6.6.0",
     "stitch-compute": "^2.0.0",
     "tslib": "^2.0.0",
