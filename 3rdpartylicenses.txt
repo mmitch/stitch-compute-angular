@@ -1,10 +1,16 @@
 @angular/common
 MIT
 
+@angular/compiler
+MIT
+
 @angular/core
 MIT
 
 @angular/forms
+MIT
+
+@angular/localize
 MIT
 
 @angular/platform-browser
@@ -12,6 +18,9 @@ MIT
 
 @angular/service-worker
 MIT
+
+@locl/core
+AGPL-3.0-or-later
 
 rxjs
 Apache-2.0
