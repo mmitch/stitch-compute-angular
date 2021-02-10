@@ -9,7 +9,7 @@
     "extract-i18n": "locl extract -s='dist/*/*.js' -f=json -o='src/assets/locale/en.json'",
     "test": "ng test",
     "lint": "ng lint",
-    "prettier-format": "prettier --config .prettierrc '**/*.xlf' '{src,e2e}/**/*.ts' 'src/**/*.html' '**/*.md' '{src,e2e}/**/*.json' --write",
+    "prettier-format": "prettier --config .prettierrc '{src,e2e}/**/*.ts' 'src/**/*.html' '**/*.md' '{src,e2e}/**/*.json' --write",
     "e2e": "ng e2e"
   },
   "private": true,
