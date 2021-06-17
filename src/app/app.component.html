@@ -19,7 +19,7 @@
   <div id="error">{{ error }}</div>
 </div>
 
-<button type="button" class="button" (click)="openHelp()" i18n="@@button-open-help">Help</button>
+<button type="button" id="openHelp" class="button" (click)="openHelp()" i18n="@@button-open-help">Help</button>
 
 <div *ngIf="isHelpVisible" id="grayout" (click)="closeHelp()">
   <div id="help" (click)="closeHelp()">
@@ -40,7 +40,7 @@
       parentheses the given number of times, eg. <b>3x&nbsp;(&nbsp;K1&nbsp;A1&nbsp;)</b> is a shorter version of
       <b>K1&nbsp;A1&nbsp;K1&nbsp;A1&nbsp;K1&nbsp;A1</b>.
     </p>
-    <button type="button" class="button" (click)="closeHelp()" i18n="@@button-close-help">Close</button>
+    <button type="button" id="closeHelp" class="button" (click)="closeHelp()" i18n="@@button-close-help">Close</button>
   </div>
   <div id="buildinfo" i18n="@@buildinfo">
     built at {{ buildInfo.buildTime }} from {{ buildInfo.commit }}/{{ buildInfo.lastChange }}
