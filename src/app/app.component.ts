@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BUILD_INFO } from 'src/environments/buildinfo';
 import { FormatterSet, StitchCompute } from 'stitch-compute';
 
@@ -18,9 +18,9 @@ export class AppComponent implements OnInit {
     groupInstructions: $localize`:@@groupFormat:%dx ( %s )`,
     listSeparator: $localize`:@@listSeparatorFormat: `
   };
-  readonly input = new UntypedFormGroup({
-    from: new UntypedFormControl('1', [Validators.required, Validators.min(1), Validators.max(512)]),
-    to: new UntypedFormControl('1', [Validators.required, Validators.min(1), Validators.max(512)])
+  readonly input = new FormGroup({
+    from: new FormControl<number>(1, [Validators.required, Validators.min(1), Validators.max(512)]),
+    to: new FormControl<number>(1, [Validators.required, Validators.min(1), Validators.max(512)])
   });
   readonly stitches = new StitchCompute();
   readonly buildInfo = BUILD_INFO;
@@ -72,11 +72,11 @@ export class AppComponent implements OnInit {
   }
 
   private getFrom(): number {
-    return +this.input.value.from;
+    return this.input.value.from || 0;
   }
 
   private getTo(): number {
-    return +this.input.value.to;
+    return this.input.value.to || 0;
   }
 
   // duplicate checks from stitch-compute to allow for localized error messages
