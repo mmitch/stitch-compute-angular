@@ -51,6 +51,6 @@ jobs:
           sed -i "s/^\(\s*lastChange: '\)[^']*\('.*\)/\1$(TZ=UTC git log -1 --format=%cd --date='format-local:%Y-%m-%d %H:%M:%S')\2/" src/environments/buildinfo.ts
           sed -i "s/^\(\s*buildTime: '\)[^']*\('.*\)/\1$(date --utc +'%Y-%m-%d %H:%M:%S')\2/" src/environments/buildinfo.ts
           cat src/environments/buildinfo.ts
-          npm run -- ng build --prod --base-href /stitch-compute-angular/
+          npm run -- ng build --base-href /stitch-compute-angular/
           npm install angular-cli-ghpages
           ./node_modules/.bin/angular-cli-ghpages --dir dist/stitch-compute-angular --no-silent --name 'CI/CD deployment' --email 'devnull@cgarbs.de'
