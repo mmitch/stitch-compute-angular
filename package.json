@@ -16,7 +16,7 @@
   "dependencies": {
     "@angular-devkit/architect": "^0.1500.4",
     "@angular-devkit/core": "^14.2.10",
-    "@angular-devkit/schematics": "^14.2.10",
+    "@angular-devkit/schematics": "^15.1.2",
     "@angular/animations": "^14.2.12",
     "@angular/common": "^14.2.12",
     "@angular/compiler": "^14.2.12",
