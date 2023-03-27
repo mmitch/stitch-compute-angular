@@ -29,7 +29,7 @@
     "rxjs": "~6.6.0",
     "stitch-compute": "^2.1.1",
     "tslib": "^2.0.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^14.2.11",
