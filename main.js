@@ -15,7 +15,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_environments_buildinfo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! src/environments/buildinfo */ 9994);
 /* harmony import */ var stitch_compute__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! stitch-compute */ 5795);
 /* harmony import */ var stitch_compute__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(stitch_compute__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _angular_localize_init__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/localize/init */ 6344);
+/* harmony import */ var _angular_localize_init__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/localize/init */ 3716);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 2560);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ 4666);
 
@@ -309,9 +309,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "BUILD_INFO": () => (/* binding */ BUILD_INFO)
 /* harmony export */ });
 const BUILD_INFO = {
-    commit: 'd932d2f',
-    lastChange: '2023-10-26 07:00:50',
-    buildTime: '2023-10-26 07:03:11'
+    commit: 'a6cc3d0',
+    lastChange: '2023-10-26 07:01:36',
+    buildTime: '2023-10-26 07:03:40'
 };
 
 
