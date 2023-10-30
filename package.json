@@ -41,7 +41,7 @@
     "@types/node": "^20.6.0",
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "6.6.0",
-    "codelyzer": "^0.0.28",
+    "codelyzer": "^6.0.2",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "2.28.0",
