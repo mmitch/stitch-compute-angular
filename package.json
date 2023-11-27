@@ -17,7 +17,7 @@
     "@angular-devkit/architect": "^0.1501.6",
     "@angular-devkit/core": "^14.2.10",
     "@angular-devkit/schematics": "^14.2.10",
-    "@angular/animations": "^14.2.12",
+    "@angular/animations": "^17.0.4",
     "@angular/common": "^14.2.12",
     "@angular/compiler": "^14.2.12",
     "@angular/core": "^14.2.12",
