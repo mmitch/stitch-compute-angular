@@ -22,7 +22,7 @@
     "@angular/compiler": "^14.2.12",
     "@angular/core": "^14.2.12",
     "@angular/forms": "^14.2.12",
-    "@angular/platform-browser": "^14.2.12",
+    "@angular/platform-browser": "^17.0.5",
     "@angular/platform-browser-dynamic": "^14.2.12",
     "@angular/router": "^16.2.8",
     "@angular/service-worker": "^14.2.12",
