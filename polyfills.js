@@ -116,6 +116,9 @@ __webpack_require__.r(__webpack_exports__);
   }
 
   class Zone {
+    // tslint:disable-next-line:require-internal-with-underscore
+    static #_ = this.__symbol__ = __symbol__;
+
     static assertZonePatched() {
       if (global['Promise'] !== patches['ZoneAwarePromise']) {
         throw new Error('Zone.js has detected that ZoneAwarePromise `(window|global).Promise` ' + 'has been overwritten.\n' + 'Most likely cause is that a Promise polyfill has been loaded ' + 'after Zone.js (Polyfilling Promise api is not necessary when zone.js is loaded. ' + 'If you must load one, do so before loading zone.js.)');
@@ -393,10 +396,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
 
-  } // tslint:disable-next-line:require-internal-with-underscore
+  }
 
-
-  Zone.__symbol__ = __symbol__;
   const DELEGATE_ZS = {
     name: '',
     onHasTask: (delegate, _, target, hasTaskState) => delegate.hasTask(target, hasTaskState),
@@ -791,7 +792,7 @@ __webpack_require__.r(__webpack_exports__);
 
   performanceMeasure('Zone', 'Zone');
   return global['Zone'] = Zone;
-})(typeof window !== 'undefined' && window || typeof self !== 'undefined' && self || global);
+})(globalThis);
 /**
  * Suppress closure compiler errors about unknown 'Zone' variable
  * @fileoverview
@@ -852,7 +853,7 @@ const zoneSymbol = Zone.__symbol__;
 const isWindowExists = typeof window !== 'undefined';
 const internalWindow = isWindowExists ? window : undefined;
 
-const _global = isWindowExists && internalWindow || typeof self === 'object' && self || global;
+const _global = isWindowExists && internalWindow || globalThis;
 
 const REMOVE_ATTRIBUTE = 'removeAttribute';
 
@@ -1287,7 +1288,7 @@ Zone.__load_patch('ZoneAwarePromise', (global, Zone, api) => {
 
   const __symbol__ = api.symbol;
   const _uncaughtPromiseErrors = [];
-  const isDisableWrappingUncaughtPromiseRejection = global[__symbol__('DISABLE_WRAPPING_UNCAUGHT_PROMISE_REJECTION')] === true;
+  const isDisableWrappingUncaughtPromiseRejection = global[__symbol__('DISABLE_WRAPPING_UNCAUGHT_PROMISE_REJECTION')] !== false;
 
   const symbolPromise = __symbol__('Promise');
 
@@ -2832,6 +2833,19 @@ Zone.__load_patch('util', (global, Zone, api) => {
  */
 
 
+function patchQueueMicrotask(global, api) {
+  api.patchMethod(global, 'queueMicrotask', delegate => {
+    return function (self, args) {
+      Zone.current.scheduleMicroTask('queueMicrotask', args[0]);
+    };
+  });
+}
+/**
+ * @fileoverview
+ * @suppress {missingRequire}
+ */
+
+
 const taskSymbol = zoneSymbol('zoneTask');
 
 function patchTimer(window, setName, cancelName, nameSuffix) {
@@ -3024,14 +3038,6 @@ Zone.__load_patch('legacy', global => {
   if (legacyPatch) {
     legacyPatch();
   }
-});
-
-Zone.__load_patch('queueMicrotask', (global, Zone, api) => {
-  api.patchMethod(global, 'queueMicrotask', delegate => {
-    return function (self, args) {
-      Zone.current.scheduleMicroTask('queueMicrotask', args[0]);
-    };
-  });
 });
 
 Zone.__load_patch('timers', global => {
@@ -3309,6 +3315,10 @@ Zone.__load_patch('PromiseRejectionEvent', (global, Zone) => {
     Zone[zoneSymbol('unhandledPromiseRejectionHandler')] = findPromiseRejectionHandler('unhandledrejection');
     Zone[zoneSymbol('rejectionHandledHandler')] = findPromiseRejectionHandler('rejectionhandled');
   }
+});
+
+Zone.__load_patch('queueMicrotask', (global, Zone, api) => {
+  patchQueueMicrotask(global, api);
 });
 
 /***/ })
