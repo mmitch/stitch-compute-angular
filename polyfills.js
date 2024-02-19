@@ -74,6 +74,7 @@ __webpack_require__.r(__webpack_exports__);
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
+// Initialize global `Zone` constant.
 
 (function (global) {
   const performance = global['performance'];
@@ -1570,11 +1571,24 @@ Zone.__load_patch('ZoneAwarePromise', (global, Zone, api) => {
     }
 
     static resolve(value) {
+      if (value instanceof ZoneAwarePromise) {
+        return value;
+      }
+
       return resolvePromise(new this(null), RESOLVED, value);
     }
 
     static reject(error) {
       return resolvePromise(new this(null), REJECTED, error);
+    }
+
+    static withResolvers() {
+      const result = {};
+      result.promise = new ZoneAwarePromise((res, rej) => {
+        result.resolve = res;
+        result.reject = rej;
+      });
+      return result;
     }
 
     static any(values) {
@@ -2297,6 +2311,12 @@ function patchEventTarget(_global, api, apis, patchOptions) {
 
         const passive = passiveSupported && !!passiveEvents && passiveEvents.indexOf(eventName) !== -1;
         const options = buildEventListenerOptions(arguments[2], passive);
+        const signal = options && typeof options === 'object' && options.signal && typeof options.signal === 'object' ? options.signal : undefined;
+
+        if (signal?.aborted) {
+          // the signal is an aborted one, just return without attaching the event listener.
+          return;
+        }
 
         if (unpatchedEvents) {
           // check unpatched list
@@ -2374,8 +2394,26 @@ function patchEventTarget(_global, api, apis, patchOptions) {
           data.taskData = taskData;
         }
 
-        const task = zone.scheduleEventTask(source, delegate, data, customScheduleFn, customCancelFn); // should clear taskData.target to avoid memory leak
+        if (signal) {
+          // if addEventListener with signal options, we don't pass it to
+          // native addEventListener, instead we keep the signal setting
+          // and handle ourselves.
+          taskData.options.signal = undefined;
+        }
+
+        const task = zone.scheduleEventTask(source, delegate, data, customScheduleFn, customCancelFn);
+
+        if (signal) {
+          // after task is scheduled, we need to store the signal back to task.options
+          taskData.options.signal = signal;
+          nativeListener.call(signal, 'abort', () => {
+            task.zone.cancelTask(task);
+          }, {
+            once: true
+          });
+        } // should clear taskData.target to avoid memory leak
         // issue, https://github.com/angular/angular/issues/20442
+
 
         taskData.target = null; // need to clear up taskData because it is a global object
 
@@ -2982,9 +3020,10 @@ function patchCustomElements(_global, api) {
 
   if (!isBrowser && !isMix || !_global['customElements'] || !('customElements' in _global)) {
     return;
-  }
+  } // https://html.spec.whatwg.org/multipage/custom-elements.html#concept-custom-element-definition-lifecycle-callbacks
 
-  const callbacks = ['connectedCallback', 'disconnectedCallback', 'adoptedCallback', 'attributeChangedCallback'];
+
+  const callbacks = ['connectedCallback', 'disconnectedCallback', 'adoptedCallback', 'attributeChangedCallback', 'formAssociatedCallback', 'formDisabledCallback', 'formResetCallback', 'formStateRestoreCallback'];
   api.patchCallbacks(api, _global.customElements, 'customElements', 'define', callbacks);
 }
 
