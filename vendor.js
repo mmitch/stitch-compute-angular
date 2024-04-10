@@ -4052,7 +4052,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 2560);
 /**
- * @license Angular v14.2.12
+ * @license Angular v14.3.0
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -10790,7 +10790,7 @@ function isPlatformWorkerUi(platformId) {
  */
 
 
-const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.Version('14.2.12');
+const VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.Version('14.3.0');
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -11059,42 +11059,6 @@ class XhrFactory {}
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-
-/**
- * Asserts that the application is in development mode. Throws an error if the application is in
- * production mode. This assert can be used to make sure that there is no dev-mode code invoked in
- * the prod mode accidentally.
- */
-
-
-function assertDevMode(checkName) {
-  if (!ngDevMode) {
-    throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2958
-    /* RuntimeErrorCode.UNEXPECTED_DEV_MODE_CHECK_IN_PROD_MODE */
-    , `Unexpected invocation of the ${checkName} in the prod mode. ` + `Please make sure that the prod mode is enabled for production builds.`);
-  }
-}
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
-// Assembles directive details string, useful for error messages.
-
-
-function imgDirectiveDetails(ngSrc, includeNgSrc = true) {
-  const ngSrcInfo = includeNgSrc ? `(activated on an <img> element with the \`ngSrc="${ngSrc}"\`) ` : '';
-  return `The NgOptimizedImage directive ${ngSrcInfo}has detected that`;
-}
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 // Converts a string that represents a URL into a URL class instance.
 
 
@@ -11144,171 +11108,6 @@ function normalizeSrc(src) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
-// Set of origins that are always excluded from the preconnect checks.
-
-
-const INTERNAL_PRECONNECT_CHECK_BLOCKLIST = new Set(['localhost', '127.0.0.1', '0.0.0.0']);
-/**
- * Multi-provider injection token to configure which origins should be excluded
- * from the preconnect checks. It can either be a single string or an array of strings
- * to represent a group of origins, for example:
- *
- * ```typescript
- *  {provide: PRECONNECT_CHECK_BLOCKLIST, multi: true, useValue: 'https://your-domain.com'}
- * ```
- *
- * or:
- *
- * ```typescript
- *  {provide: PRECONNECT_CHECK_BLOCKLIST, multi: true,
- *   useValue: ['https://your-domain-1.com', 'https://your-domain-2.com']}
- * ```
- *
- * @publicApi
- * @developerPreview
- */
-
-const PRECONNECT_CHECK_BLOCKLIST = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.InjectionToken('PRECONNECT_CHECK_BLOCKLIST');
-/**
- * Contains the logic to detect whether an image, marked with the "priority" attribute
- * has a corresponding `<link rel="preconnect">` tag in the `document.head`.
- *
- * Note: this is a dev-mode only class, which should not appear in prod bundles,
- * thus there is no `ngDevMode` use in the code.
- */
-
-class PreconnectLinkChecker {
-  constructor() {
-    this.document = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(DOCUMENT);
-    /**
-     * Set of <link rel="preconnect"> tags found on this page.
-     * The `null` value indicates that there was no DOM query operation performed.
-     */
-
-    this.preconnectLinks = null;
-    /*
-     * Keep track of all already seen origin URLs to avoid repeating the same check.
-     */
-
-    this.alreadySeen = new Set();
-    this.window = null;
-    this.blocklist = new Set(INTERNAL_PRECONNECT_CHECK_BLOCKLIST);
-    assertDevMode('preconnect link checker');
-    const win = this.document.defaultView;
-
-    if (typeof win !== 'undefined') {
-      this.window = win;
-    }
-
-    const blocklist = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(PRECONNECT_CHECK_BLOCKLIST, {
-      optional: true
-    });
-
-    if (blocklist) {
-      this.populateBlocklist(blocklist);
-    }
-  }
-
-  populateBlocklist(origins) {
-    if (Array.isArray(origins)) {
-      deepForEach(origins, origin => {
-        this.blocklist.add(extractHostname(origin));
-      });
-    } else {
-      throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2957
-      /* RuntimeErrorCode.INVALID_PRECONNECT_CHECK_BLOCKLIST */
-      , `The blocklist for the preconnect check was not provided as an array. ` + `Check that the \`PRECONNECT_CHECK_BLOCKLIST\` token is configured as a \`multi: true\` provider.`);
-    }
-  }
-  /**
-   * Checks that a preconnect resource hint exists in the head fo rthe
-   * given src.
-   *
-   * @param rewrittenSrc src formatted with loader
-   * @param originalNgSrc ngSrc value
-   */
-
-
-  assertPreconnect(rewrittenSrc, originalNgSrc) {
-    if (!this.window) return;
-    const imgUrl = getUrl(rewrittenSrc, this.window);
-    if (this.blocklist.has(imgUrl.hostname) || this.alreadySeen.has(imgUrl.origin)) return; // Register this origin as seen, so we don't check it again later.
-
-    this.alreadySeen.add(imgUrl.origin);
-
-    if (!this.preconnectLinks) {
-      // Note: we query for preconnect links only *once* and cache the results
-      // for the entire lifespan of an application, since it's unlikely that the
-      // list would change frequently. This allows to make sure there are no
-      // performance implications of making extra DOM lookups for each image.
-      this.preconnectLinks = this.queryPreconnectLinks();
-    }
-
-    if (!this.preconnectLinks.has(imgUrl.origin)) {
-      console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵformatRuntimeError"])(2956
-      /* RuntimeErrorCode.PRIORITY_IMG_MISSING_PRECONNECT_TAG */
-      , `${imgDirectiveDetails(originalNgSrc)} there is no preconnect tag present for this ` + `image. Preconnecting to the origin(s) that serve priority images ensures that these ` + `images are delivered as soon as possible. To fix this, please add the following ` + `element into the <head> of the document:\n` + `  <link rel="preconnect" href="${imgUrl.origin}">`));
-    }
-  }
-
-  queryPreconnectLinks() {
-    const preconnectUrls = new Set();
-    const selector = 'link[rel=preconnect]';
-    const links = Array.from(this.document.querySelectorAll(selector));
-
-    for (let link of links) {
-      const url = getUrl(link.href, this.window);
-      preconnectUrls.add(url.origin);
-    }
-
-    return preconnectUrls;
-  }
-
-  ngOnDestroy() {
-    this.preconnectLinks?.clear();
-    this.alreadySeen.clear();
-  }
-
-}
-
-PreconnectLinkChecker.ɵfac = function PreconnectLinkChecker_Factory(t) {
-  return new (t || PreconnectLinkChecker)();
-};
-
-PreconnectLinkChecker.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
-  token: PreconnectLinkChecker,
-  factory: PreconnectLinkChecker.ɵfac,
-  providedIn: 'root'
-});
-
-(function () {
-  (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PreconnectLinkChecker, [{
-    type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Injectable,
-    args: [{
-      providedIn: 'root'
-    }]
-  }], function () {
-    return [];
-  }, null);
-})();
-/**
- * Invokes a callback for each element in the array. Also invokes a callback
- * recursively for each nested array.
- */
-
-
-function deepForEach(input, fn) {
-  for (let value of input) {
-    Array.isArray(value) ? deepForEach(value, fn) : fn(value);
-  }
-}
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 
 /**
  * Noop image loader that does no transformation to the original src and just returns it as is.
@@ -11326,7 +11125,6 @@ const noopImageLoader = config => config.src;
  * @see `ImageLoader`
  * @see `NgOptimizedImage`
  * @publicApi
- * @developerPreview
  */
 
 
@@ -11345,9 +11143,7 @@ const IMAGE_LOADER = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.InjectionTok
  */
 
 function createImageLoader(buildUrlFn, exampleUrls) {
-  return function provideImageLoader(path, options = {
-    ensurePreconnect: true
-  }) {
+  return function provideImageLoader(path) {
     if (!isValidPath(path)) {
       throwInvalidPathError(path, exampleUrls || []);
     } // The trailing / is stripped (if provided) to make URL construction (concatenation) easier in
@@ -11375,15 +11171,6 @@ function createImageLoader(buildUrlFn, exampleUrls) {
       provide: IMAGE_LOADER,
       useValue: loaderFn
     }];
-
-    if (ngDevMode && options.ensurePreconnect === false) {
-      providers.push({
-        provide: PRECONNECT_CHECK_BLOCKLIST,
-        useValue: [path],
-        multi: true
-      });
-    }
-
     return providers;
   };
 }
@@ -11414,14 +11201,9 @@ function throwUnexpectedAbsoluteUrlError(path, url) {
  * Cloudflare Image Resizing; it will not work with Cloudflare Images or Cloudflare Polish.
  *
  * @param path Your domain name, e.g. https://mysite.com
- * @param options An object with extra configuration:
- * - `ensurePreconnect`: boolean flag indicating whether the NgOptimizedImage directive
- *                       should verify that there is a corresponding `<link rel="preconnect">`
- *                       present in the document's `<head>`.
  * @returns Provider that provides an ImageLoader function
  *
  * @publicApi
- * @developerPreview
  */
 
 
@@ -11447,6 +11229,23 @@ function createCloudflareUrl(path, config) {
  */
 
 /**
+ * Name and URL tester for Cloudinary.
+ */
+
+
+const cloudinaryLoaderInfo = {
+  name: 'Cloudinary',
+  testUrl: isCloudinaryUrl
+};
+const CLOUDINARY_LOADER_REGEX = /https?\:\/\/[^\/]+\.cloudinary\.com\/.+/;
+/**
+ * Tests whether a URL is from Cloudinary CDN.
+ */
+
+function isCloudinaryUrl(url) {
+  return CLOUDINARY_LOADER_REGEX.test(url);
+}
+/**
  * Function that generates an ImageLoader for Cloudinary and turns it into an Angular provider.
  *
  * @param path Base URL of your Cloudinary images
@@ -11454,14 +11253,9 @@ function createCloudflareUrl(path, config) {
  * https://res.cloudinary.com/mysite
  * https://mysite.cloudinary.com
  * https://subdomain.mysite.com
- * @param options An object with extra configuration:
- * - `ensurePreconnect`: boolean flag indicating whether the NgOptimizedImage directive
- *                       should verify that there is a corresponding `<link rel="preconnect">`
- *                       present in the document's `<head>`.
  * @returns Set of providers to configure the Cloudinary loader.
  *
  * @publicApi
- * @developerPreview
  */
 
 
@@ -11489,20 +11283,32 @@ function createCloudinaryUrl(path, config) {
  */
 
 /**
+ * Name and URL tester for ImageKit.
+ */
+
+
+const imageKitLoaderInfo = {
+  name: 'ImageKit',
+  testUrl: isImageKitUrl
+};
+const IMAGE_KIT_LOADER_REGEX = /https?\:\/\/[^\/]+\.imagekit\.io\/.+/;
+/**
+ * Tests whether a URL is from ImageKit CDN.
+ */
+
+function isImageKitUrl(url) {
+  return IMAGE_KIT_LOADER_REGEX.test(url);
+}
+/**
  * Function that generates an ImageLoader for ImageKit and turns it into an Angular provider.
  *
  * @param path Base URL of your ImageKit images
  * This URL should match one of the following formats:
  * https://ik.imagekit.io/myaccount
  * https://subdomain.mysite.com
- * @param options An object with extra configuration:
- * - `ensurePreconnect`: boolean flag indicating whether the NgOptimizedImage directive
- *                       should verify that there is a corresponding `<link rel="preconnect">`
- *                       present in the document's `<head>`.
  * @returns Set of providers to configure the ImageKit loader.
  *
  * @publicApi
- * @developerPreview
  */
 
 
@@ -11528,18 +11334,30 @@ function createImagekitUrl(path, config) {
  */
 
 /**
+ * Name and URL tester for Imgix.
+ */
+
+
+const imgixLoaderInfo = {
+  name: 'Imgix',
+  testUrl: isImgixUrl
+};
+const IMGIX_LOADER_REGEX = /https?\:\/\/[^\/]+\.imgix\.net\/.+/;
+/**
+ * Tests whether a URL is from Imgix CDN.
+ */
+
+function isImgixUrl(url) {
+  return IMGIX_LOADER_REGEX.test(url);
+}
+/**
  * Function that generates an ImageLoader for Imgix and turns it into an Angular provider.
  *
  * @param path path to the desired Imgix origin,
  * e.g. https://somepath.imgix.net or https://images.mysite.com
- * @param options An object with extra configuration:
- * - `ensurePreconnect`: boolean flag indicating whether the NgOptimizedImage directive
- *                       should verify that there is a corresponding `<link rel="preconnect">`
- *                       present in the document's `<head>`.
  * @returns Set of providers to configure the Imgix loader.
  *
  * @publicApi
- * @developerPreview
  */
 
 
@@ -11555,6 +11373,42 @@ function createImgixUrl(path, config) {
   }
 
   return url.href;
+}
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+// Assembles directive details string, useful for error messages.
+
+
+function imgDirectiveDetails(ngSrc, includeNgSrc = true) {
+  const ngSrcInfo = includeNgSrc ? `(activated on an <img> element with the \`ngSrc="${ngSrc}"\`) ` : '';
+  return `The NgOptimizedImage directive ${ngSrcInfo}has detected that`;
+}
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * Asserts that the application is in development mode. Throws an error if the application is in
+ * production mode. This assert can be used to make sure that there is no dev-mode code invoked in
+ * the prod mode accidentally.
+ */
+
+
+function assertDevMode(checkName) {
+  if (!ngDevMode) {
+    throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2958
+    /* RuntimeErrorCode.UNEXPECTED_DEV_MODE_CHECK_IN_PROD_MODE */
+    , `Unexpected invocation of the ${checkName} in the prod mode. ` + `Please make sure that the prod mode is enabled for production builds.`);
+  }
 }
 /**
  * @license
@@ -11679,6 +11533,288 @@ function logMissingPriorityWarning(ngSrc) {
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  */
+// Set of origins that are always excluded from the preconnect checks.
+
+
+const INTERNAL_PRECONNECT_CHECK_BLOCKLIST = new Set(['localhost', '127.0.0.1', '0.0.0.0']);
+/**
+ * Injection token to configure which origins should be excluded
+ * from the preconnect checks. It can either be a single string or an array of strings
+ * to represent a group of origins, for example:
+ *
+ * ```typescript
+ *  {provide: PRECONNECT_CHECK_BLOCKLIST, useValue: 'https://your-domain.com'}
+ * ```
+ *
+ * or:
+ *
+ * ```typescript
+ *  {provide: PRECONNECT_CHECK_BLOCKLIST,
+ *   useValue: ['https://your-domain-1.com', 'https://your-domain-2.com']}
+ * ```
+ *
+ * @publicApi
+ */
+
+const PRECONNECT_CHECK_BLOCKLIST = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.InjectionToken('PRECONNECT_CHECK_BLOCKLIST');
+/**
+ * Contains the logic to detect whether an image, marked with the "priority" attribute
+ * has a corresponding `<link rel="preconnect">` tag in the `document.head`.
+ *
+ * Note: this is a dev-mode only class, which should not appear in prod bundles,
+ * thus there is no `ngDevMode` use in the code.
+ */
+
+class PreconnectLinkChecker {
+  constructor() {
+    this.document = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(DOCUMENT);
+    /**
+     * Set of <link rel="preconnect"> tags found on this page.
+     * The `null` value indicates that there was no DOM query operation performed.
+     */
+
+    this.preconnectLinks = null;
+    /*
+     * Keep track of all already seen origin URLs to avoid repeating the same check.
+     */
+
+    this.alreadySeen = new Set();
+    this.window = null;
+    this.blocklist = new Set(INTERNAL_PRECONNECT_CHECK_BLOCKLIST);
+    assertDevMode('preconnect link checker');
+    const win = this.document.defaultView;
+
+    if (typeof win !== 'undefined') {
+      this.window = win;
+    }
+
+    const blocklist = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(PRECONNECT_CHECK_BLOCKLIST, {
+      optional: true
+    });
+
+    if (blocklist) {
+      this.populateBlocklist(blocklist);
+    }
+  }
+
+  populateBlocklist(origins) {
+    if (Array.isArray(origins)) {
+      deepForEach(origins, origin => {
+        this.blocklist.add(extractHostname(origin));
+      });
+    } else {
+      this.blocklist.add(extractHostname(origins));
+    }
+  }
+  /**
+   * Checks that a preconnect resource hint exists in the head for the
+   * given src.
+   *
+   * @param rewrittenSrc src formatted with loader
+   * @param originalNgSrc ngSrc value
+   */
+
+
+  assertPreconnect(rewrittenSrc, originalNgSrc) {
+    if (!this.window) return;
+    const imgUrl = getUrl(rewrittenSrc, this.window);
+    if (this.blocklist.has(imgUrl.hostname) || this.alreadySeen.has(imgUrl.origin)) return; // Register this origin as seen, so we don't check it again later.
+
+    this.alreadySeen.add(imgUrl.origin);
+
+    if (!this.preconnectLinks) {
+      // Note: we query for preconnect links only *once* and cache the results
+      // for the entire lifespan of an application, since it's unlikely that the
+      // list would change frequently. This allows to make sure there are no
+      // performance implications of making extra DOM lookups for each image.
+      this.preconnectLinks = this.queryPreconnectLinks();
+    }
+
+    if (!this.preconnectLinks.has(imgUrl.origin)) {
+      console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵformatRuntimeError"])(2956
+      /* RuntimeErrorCode.PRIORITY_IMG_MISSING_PRECONNECT_TAG */
+      , `${imgDirectiveDetails(originalNgSrc)} there is no preconnect tag present for this ` + `image. Preconnecting to the origin(s) that serve priority images ensures that these ` + `images are delivered as soon as possible. To fix this, please add the following ` + `element into the <head> of the document:\n` + `  <link rel="preconnect" href="${imgUrl.origin}">`));
+    }
+  }
+
+  queryPreconnectLinks() {
+    const preconnectUrls = new Set();
+    const selector = 'link[rel=preconnect]';
+    const links = Array.from(this.document.querySelectorAll(selector));
+
+    for (let link of links) {
+      const url = getUrl(link.href, this.window);
+      preconnectUrls.add(url.origin);
+    }
+
+    return preconnectUrls;
+  }
+
+  ngOnDestroy() {
+    this.preconnectLinks?.clear();
+    this.alreadySeen.clear();
+  }
+
+}
+
+PreconnectLinkChecker.ɵfac = function PreconnectLinkChecker_Factory(t) {
+  return new (t || PreconnectLinkChecker)();
+};
+
+PreconnectLinkChecker.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+  token: PreconnectLinkChecker,
+  factory: PreconnectLinkChecker.ɵfac,
+  providedIn: 'root'
+});
+
+(function () {
+  (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PreconnectLinkChecker, [{
+    type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Injectable,
+    args: [{
+      providedIn: 'root'
+    }]
+  }], function () {
+    return [];
+  }, null);
+})();
+/**
+ * Invokes a callback for each element in the array. Also invokes a callback
+ * recursively for each nested array.
+ */
+
+
+function deepForEach(input, fn) {
+  for (let value of input) {
+    Array.isArray(value) ? deepForEach(value, fn) : fn(value);
+  }
+}
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * In SSR scenarios, a preload `<link>` element is generated for priority images.
+ * Having a large number of preload tags may negatively affect the performance,
+ * so we warn developers (by throwing an error) if the number of preloaded images
+ * is above a certain threshold. This const specifies this threshold.
+ */
+
+
+const DEFAULT_PRELOADED_IMAGES_LIMIT = 5;
+/**
+ * Helps to keep track of priority images that already have a corresponding
+ * preload tag (to avoid generating multiple preload tags with the same URL).
+ *
+ * This Set tracks the original src passed into the `ngSrc` input not the src after it has been
+ * run through the specified `IMAGE_LOADER`.
+ */
+
+const PRELOADED_IMAGES = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.InjectionToken('NG_OPTIMIZED_PRELOADED_IMAGES', {
+  providedIn: 'root',
+  factory: () => new Set()
+});
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+/**
+ * @description Contains the logic needed to track and add preload link tags to the `<head>` tag. It
+ * will also track what images have already had preload link tags added so as to not duplicate link
+ * tags.
+ *
+ * In dev mode this service will validate that the number of preloaded images does not exceed the
+ * configured default preloaded images limit: {@link DEFAULT_PRELOADED_IMAGES_LIMIT}.
+ */
+
+class PreloadLinkCreator {
+  constructor() {
+    this.preloadedImages = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(PRELOADED_IMAGES);
+    this.document = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(DOCUMENT);
+  }
+  /**
+   * @description Add a preload `<link>` to the `<head>` of the `index.html` that is served from the
+   * server while using Angular Universal and SSR to kick off image loads for high priority images.
+   *
+   * The `sizes` (passed in from the user) and `srcset` (parsed and formatted from `ngSrcset`)
+   * properties used to set the corresponding attributes, `imagesizes` and `imagesrcset`
+   * respectively, on the preload `<link>` tag so that the correctly sized image is preloaded from
+   * the CDN.
+   *
+   * {@link https://web.dev/preload-responsive-images/#imagesrcset-and-imagesizes}
+   *
+   * @param renderer The `Renderer2` passed in from the directive
+   * @param src The original src of the image that is set on the `ngSrc` input.
+   * @param srcset The parsed and formatted srcset created from the `ngSrcset` input
+   * @param sizes The value of the `sizes` attribute passed in to the `<img>` tag
+   */
+
+
+  createPreloadLinkTag(renderer, src, srcset, sizes) {
+    if (ngDevMode) {
+      if (this.preloadedImages.size >= DEFAULT_PRELOADED_IMAGES_LIMIT) {
+        throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2961
+        /* RuntimeErrorCode.TOO_MANY_PRELOADED_IMAGES */
+        , ngDevMode && `The \`NgOptimizedImage\` directive has detected that more than ` + `${DEFAULT_PRELOADED_IMAGES_LIMIT} images were marked as priority. ` + `This might negatively affect an overall performance of the page. ` + `To fix this, remove the "priority" attribute from images with less priority.`);
+      }
+    }
+
+    if (this.preloadedImages.has(src)) {
+      return;
+    }
+
+    this.preloadedImages.add(src);
+    const preload = renderer.createElement('link');
+    renderer.setAttribute(preload, 'as', 'image');
+    renderer.setAttribute(preload, 'href', src);
+    renderer.setAttribute(preload, 'rel', 'preload');
+    renderer.setAttribute(preload, 'fetchpriority', 'high');
+
+    if (sizes) {
+      renderer.setAttribute(preload, 'imageSizes', sizes);
+    }
+
+    if (srcset) {
+      renderer.setAttribute(preload, 'imageSrcset', srcset);
+    }
+
+    renderer.appendChild(this.document.head, preload);
+  }
+
+}
+
+PreloadLinkCreator.ɵfac = function PreloadLinkCreator_Factory(t) {
+  return new (t || PreloadLinkCreator)();
+};
+
+PreloadLinkCreator.ɵprov = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
+  token: PreloadLinkCreator,
+  factory: PreloadLinkCreator.ɵfac,
+  providedIn: 'root'
+});
+
+(function () {
+  (typeof ngDevMode === "undefined" || ngDevMode) && _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](PreloadLinkCreator, [{
+    type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Injectable,
+    args: [{
+      providedIn: 'root'
+    }]
+  }], null, null);
+})();
+/**
+ * @license
+ * Copyright Google LLC All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
 
 /**
  * When a Base64-encoded image is passed as an input to the `NgOptimizedImage` directive,
@@ -11716,6 +11852,16 @@ const ABSOLUTE_SRCSET_DENSITY_CAP = 3;
 
 const RECOMMENDED_SRCSET_DENSITY_CAP = 2;
 /**
+ * Used in generating automatic density-based srcsets
+ */
+
+const DENSITY_SRCSET_MULTIPLIERS = [1, 2];
+/**
+ * Used to determine which breakpoints to use on full-width images
+ */
+
+const VIEWPORT_BREAKPOINT_CUTOFF = 640;
+/**
  * Used to determine whether two aspect ratios are similar in value.
  */
 
@@ -11728,6 +11874,31 @@ const ASPECT_RATIO_TOLERANCE = .1;
 
 const OVERSIZED_IMAGE_TOLERANCE = 1000;
 /**
+ * Used to limit automatic srcset generation of very large sources for
+ * fixed-size images. In pixels.
+ */
+
+const FIXED_SRCSET_WIDTH_LIMIT = 1920;
+const FIXED_SRCSET_HEIGHT_LIMIT = 1080;
+/** Info about built-in loaders we can test for. */
+
+const BUILT_IN_LOADERS = [imgixLoaderInfo, imageKitLoaderInfo, cloudinaryLoaderInfo];
+const defaultConfig = {
+  breakpoints: [16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840]
+};
+/**
+ * Injection token that configures the image optimized image functionality.
+ *
+ * @see `NgOptimizedImage`
+ * @publicApi
+ * @developerPreview
+ */
+
+const IMAGE_CONFIG = new _angular_core__WEBPACK_IMPORTED_MODULE_0__.InjectionToken('ImageConfig', {
+  providedIn: 'root',
+  factory: () => defaultConfig
+});
+/**
  * Directive that improves image loading performance by enforcing best practices.
  *
  * `NgOptimizedImage` ensures that the loading of the Largest Contentful Paint (LCP) image is
@@ -11738,6 +11909,7 @@ const OVERSIZED_IMAGE_TOLERANCE = 1000;
  *
  * In addition, the directive:
  * - Generates appropriate asset URLs if a corresponding `ImageLoader` function is provided
+ * - Automatically generates a srcset
  * - Requires that `width` and `height` are set
  * - Warns if `width` or `height` have been set incorrectly
  * - Warns if the image will be visually distorted when rendered
@@ -11823,15 +11995,17 @@ const OVERSIZED_IMAGE_TOLERANCE = 1000;
  * ```
  *
  * @publicApi
- * @developerPreview
  */
 
 class NgOptimizedImage {
   constructor() {
     this.imageLoader = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(IMAGE_LOADER);
+    this.config = processConfig((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(IMAGE_CONFIG));
     this.renderer = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_0__.Renderer2);
     this.imgElement = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_0__.ElementRef).nativeElement;
-    this.injector = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_0__.Injector); // a LCP image observer - should be injected only in the dev mode
+    this.injector = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_0__.Injector);
+    this.isServer = isPlatformServer((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_0__.PLATFORM_ID));
+    this.preloadLinkChecker = (0,_angular_core__WEBPACK_IMPORTED_MODULE_0__.inject)(PreloadLinkCreator); // a LCP image observer - should be injected only in the dev mode
 
     this.lcpObserver = ngDevMode ? this.injector.get(LCPImageObserver) : null;
     /**
@@ -11843,28 +12017,12 @@ class NgOptimizedImage {
 
     this._renderedSrc = null;
     this._priority = false;
+    this._disableOptimizedSrcset = false;
+    this._fill = false;
   }
   /**
-   * Previously, the `rawSrc` attribute was used to activate the directive.
-   * The attribute was renamed to `ngSrc` and this input just produces an error,
-   * suggesting to switch to `ngSrc` instead.
-   *
-   * This error should be removed in v15.
-   *
-   * @nodoc
-   * @deprecated Use `ngSrc` instead.
-   */
-
-
-  set rawSrc(value) {
-    if (ngDevMode) {
-      throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2952
-      /* RuntimeErrorCode.INVALID_INPUT */
-      , `${imgDirectiveDetails(value, false)} the \`rawSrc\` attribute was used ` + `to activate the directive. Newer version of the directive uses the \`ngSrc\` ` + `attribute instead. Please replace \`rawSrc\` with \`ngSrc\` and ` + `\`rawSrcset\` with \`ngSrcset\` attributes in the template to ` + `enable image optimizations.`);
-    }
-  }
-  /**
-   * The intrinsic width of the image in pixels.
+   * For responsive images: the intrinsic width of the image in pixels.
+   * For fixed size images: the desired rendered width of the image in pixels.
    */
 
 
@@ -11877,7 +12035,9 @@ class NgOptimizedImage {
     return this._width;
   }
   /**
-   * The intrinsic height of the image in pixels.
+   * For responsive images: the intrinsic height of the image in pixels.
+   * For fixed size images: the desired rendered height of the image in pixels.* The intrinsic
+   * height of the image in pixels.
    */
 
 
@@ -11901,18 +12061,68 @@ class NgOptimizedImage {
   get priority() {
     return this._priority;
   }
+  /**
+   * Disables automatic srcset generation for this image.
+   */
+
+
+  set disableOptimizedSrcset(value) {
+    this._disableOptimizedSrcset = inputToBoolean(value);
+  }
+
+  get disableOptimizedSrcset() {
+    return this._disableOptimizedSrcset;
+  }
+  /**
+   * Sets the image to "fill mode", which eliminates the height/width requirement and adds
+   * styles such that the image fills its containing element.
+   *
+   * @developerPreview
+   */
+
+
+  set fill(value) {
+    this._fill = inputToBoolean(value);
+  }
+
+  get fill() {
+    return this._fill;
+  }
+  /** @nodoc */
+
 
   ngOnInit() {
     if (ngDevMode) {
       assertNonEmptyInput(this, 'ngSrc', this.ngSrc);
       assertValidNgSrcset(this, this.ngSrcset);
       assertNoConflictingSrc(this);
-      assertNoConflictingSrcset(this);
+
+      if (this.ngSrcset) {
+        assertNoConflictingSrcset(this);
+      }
+
       assertNotBase64Image(this);
       assertNotBlobUrl(this);
-      assertNonEmptyWidthAndHeight(this);
+
+      if (this.fill) {
+        assertEmptyWidthAndHeight(this);
+        assertNonZeroRenderedHeight(this, this.imgElement, this.renderer);
+      } else {
+        assertNonEmptyWidthAndHeight(this); // Only check for distorted images when not in fill mode, where
+        // images may be intentionally stretched, cropped or letterboxed.
+
+        assertNoImageDistortion(this, this.imgElement, this.renderer);
+      }
+
       assertValidLoadingInput(this);
-      assertNoImageDistortion(this, this.imgElement, this.renderer);
+
+      if (!this.ngSrcset) {
+        assertNoComplexSizes(this);
+      }
+
+      assertNotMissingBuiltInLoader(this.ngSrc, this.imageLoader);
+      assertNoNgSrcsetWithoutLoader(this, this.imageLoader);
+      assertNoLoaderParamsWithoutLoader(this, this.imageLoader);
 
       if (this.priority) {
         const checker = this.injector.get(PreconnectLinkChecker);
@@ -11936,23 +12146,61 @@ class NgOptimizedImage {
   setHostAttributes() {
     // Must set width/height explicitly in case they are bound (in which case they will
     // only be reflected and not found by the browser)
-    this.setHostAttribute('width', this.width.toString());
-    this.setHostAttribute('height', this.height.toString());
+    if (this.fill) {
+      if (!this.sizes) {
+        this.sizes = '100vw';
+      }
+    } else {
+      this.setHostAttribute('width', this.width.toString());
+      this.setHostAttribute('height', this.height.toString());
+    }
+
     this.setHostAttribute('loading', this.getLoadingBehavior());
-    this.setHostAttribute('fetchpriority', this.getFetchPriority()); // The `src` and `srcset` attributes should be set last since other attributes
+    this.setHostAttribute('fetchpriority', this.getFetchPriority()); // The `data-ng-img` attribute flags an image as using the directive, to allow
+    // for analysis of the directive's performance.
+
+    this.setHostAttribute('ng-img', 'true'); // The `src` and `srcset` attributes should be set last since other attributes
     // could affect the image's loading behavior.
 
-    this.setHostAttribute('src', this.getRewrittenSrc());
+    const rewrittenSrc = this.getRewrittenSrc();
+    this.setHostAttribute('src', rewrittenSrc);
+    let rewrittenSrcset = undefined;
+
+    if (this.sizes) {
+      this.setHostAttribute('sizes', this.sizes);
+    }
 
     if (this.ngSrcset) {
-      this.setHostAttribute('srcset', this.getRewrittenSrcset());
+      rewrittenSrcset = this.getRewrittenSrcset();
+    } else if (this.shouldGenerateAutomaticSrcset()) {
+      rewrittenSrcset = this.getAutomaticSrcset();
+    }
+
+    if (rewrittenSrcset) {
+      this.setHostAttribute('srcset', rewrittenSrcset);
+    }
+
+    if (this.isServer && this.priority) {
+      this.preloadLinkChecker.createPreloadLinkTag(this.renderer, rewrittenSrc, rewrittenSrcset, this.sizes);
     }
   }
+  /** @nodoc */
+
 
   ngOnChanges(changes) {
     if (ngDevMode) {
-      assertNoPostInitInputChange(this, changes, ['ngSrc', 'ngSrcset', 'width', 'height', 'priority']);
+      assertNoPostInitInputChange(this, changes, ['ngSrc', 'ngSrcset', 'width', 'height', 'priority', 'fill', 'loading', 'sizes', 'loaderParams', 'disableOptimizedSrcset']);
     }
+  }
+
+  callImageLoader(configWithoutCustomParams) {
+    let augmentedConfig = configWithoutCustomParams;
+
+    if (this.loaderParams) {
+      augmentedConfig.loaderParams = this.loaderParams;
+    }
+
+    return this.imageLoader(augmentedConfig);
   }
 
   getLoadingBehavior() {
@@ -11976,7 +12224,7 @@ class NgOptimizedImage {
         src: this.ngSrc
       }; // Cache calculated image src to reuse it later in the code.
 
-      this._renderedSrc = this.imageLoader(imgConfig);
+      this._renderedSrc = this.callImageLoader(imgConfig);
     }
 
     return this._renderedSrc;
@@ -11987,13 +12235,57 @@ class NgOptimizedImage {
     const finalSrcs = this.ngSrcset.split(',').filter(src => src !== '').map(srcStr => {
       srcStr = srcStr.trim();
       const width = widthSrcSet ? parseFloat(srcStr) : parseFloat(srcStr) * this.width;
-      return `${this.imageLoader({
+      return `${this.callImageLoader({
         src: this.ngSrc,
         width
       })} ${srcStr}`;
     });
     return finalSrcs.join(', ');
   }
+
+  getAutomaticSrcset() {
+    if (this.sizes) {
+      return this.getResponsiveSrcset();
+    } else {
+      return this.getFixedSrcset();
+    }
+  }
+
+  getResponsiveSrcset() {
+    const {
+      breakpoints
+    } = this.config;
+    let filteredBreakpoints = breakpoints;
+
+    if (this.sizes?.trim() === '100vw') {
+      // Since this is a full-screen-width image, our srcset only needs to include
+      // breakpoints with full viewport widths.
+      filteredBreakpoints = breakpoints.filter(bp => bp >= VIEWPORT_BREAKPOINT_CUTOFF);
+    }
+
+    const finalSrcs = filteredBreakpoints.map(bp => `${this.callImageLoader({
+      src: this.ngSrc,
+      width: bp
+    })} ${bp}w`);
+    return finalSrcs.join(', ');
+  }
+
+  getFixedSrcset() {
+    const finalSrcs = DENSITY_SRCSET_MULTIPLIERS.map(multiplier => {
+      const imgUrl = this.callImageLoader({
+        src: this.ngSrc,
+        width: this.width * multiplier
+      });
+      return `${imgUrl} ${multiplier}x`;
+    });
+    return finalSrcs.join(', ');
+  }
+
+  shouldGenerateAutomaticSrcset() {
+    return !this._disableOptimizedSrcset && !this.srcset && this.imageLoader !== noopImageLoader && !(this.width > FIXED_SRCSET_WIDTH_LIMIT || this.height > FIXED_SRCSET_HEIGHT_LIMIT);
+  }
+  /** @nodoc */
+
 
   ngOnDestroy() {
     if (ngDevMode) {
@@ -12015,15 +12307,24 @@ NgOptimizedImage.ɵfac = function NgOptimizedImage_Factory(t) {
 
 NgOptimizedImage.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineDirective"]({
   type: NgOptimizedImage,
-  selectors: [["img", "ngSrc", ""], ["img", "rawSrc", ""]],
+  selectors: [["img", "ngSrc", ""]],
+  hostVars: 8,
+  hostBindings: function NgOptimizedImage_HostBindings(rf, ctx) {
+    if (rf & 2) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵstyleProp"]("position", ctx.fill ? "absolute" : null)("width", ctx.fill ? "100%" : null)("height", ctx.fill ? "100%" : null)("inset", ctx.fill ? "0px" : null);
+    }
+  },
   inputs: {
-    rawSrc: "rawSrc",
     ngSrc: "ngSrc",
     ngSrcset: "ngSrcset",
+    sizes: "sizes",
     width: "width",
     height: "height",
     loading: "loading",
     priority: "priority",
+    loaderParams: "loaderParams",
+    disableOptimizedSrcset: "disableOptimizedSrcset",
+    fill: "fill",
     src: "src",
     srcset: "srcset"
   },
@@ -12036,16 +12337,22 @@ NgOptimizedImage.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0
     type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Directive,
     args: [{
       standalone: true,
-      selector: 'img[ngSrc],img[rawSrc]'
+      selector: 'img[ngSrc]',
+      host: {
+        '[style.position]': 'fill ? "absolute" : null',
+        '[style.width]': 'fill ? "100%" : null',
+        '[style.height]': 'fill ? "100%" : null',
+        '[style.inset]': 'fill ? "0px" : null'
+      }
     }]
   }], null, {
-    rawSrc: [{
-      type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
-    }],
     ngSrc: [{
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
     }],
     ngSrcset: [{
+      type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
+    }],
+    sizes: [{
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
     }],
     width: [{
@@ -12058,6 +12365,15 @@ NgOptimizedImage.ɵdir = /* @__PURE__ */_angular_core__WEBPACK_IMPORTED_MODULE_0
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
     }],
     priority: [{
+      type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
+    }],
+    loaderParams: [{
+      type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
+    }],
+    disableOptimizedSrcset: [{
+      type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
+    }],
+    fill: [{
       type: _angular_core__WEBPACK_IMPORTED_MODULE_0__.Input
     }],
     src: [{
@@ -12085,6 +12401,20 @@ function inputToInteger(value) {
 
 function inputToBoolean(value) {
   return value != null && `${value}` !== 'false';
+}
+/**
+ * Sorts provided config breakpoints and uses defaults.
+ */
+
+
+function processConfig(config) {
+  let sortedBreakpoints = {};
+
+  if (config.breakpoints) {
+    sortedBreakpoints.breakpoints = config.breakpoints.sort((a, b) => a - b);
+  }
+
+  return Object.assign({}, defaultConfig, config, sortedBreakpoints);
 }
 /***** Assert functions *****/
 
@@ -12128,6 +12458,20 @@ function assertNotBase64Image(dir) {
     throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2952
     /* RuntimeErrorCode.INVALID_INPUT */
     , `${imgDirectiveDetails(dir.ngSrc, false)} \`ngSrc\` is a Base64-encoded string ` + `(${ngSrc}). NgOptimizedImage does not support Base64-encoded strings. ` + `To fix this, disable the NgOptimizedImage directive for this element ` + `by removing \`ngSrc\` and using a standard \`src\` attribute instead.`);
+  }
+}
+/**
+ * Verifies that the 'sizes' only includes responsive values.
+ */
+
+
+function assertNoComplexSizes(dir) {
+  let sizes = dir.sizes;
+
+  if (sizes?.match(/((\)|,)\s|^)\d+px/)) {
+    throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2952
+    /* RuntimeErrorCode.INVALID_INPUT */
+    , `${imgDirectiveDetails(dir.ngSrc, false)} \`sizes\` was set to a string including ` + `pixel values. For automatic \`srcset\` generation, \`sizes\` must only include responsive ` + `values, such as \`sizes="50vw"\` or \`sizes="(min-width: 768px) 50vw, 100vw"\`. ` + `To fix this, modify the \`sizes\` attribute, or provide your own \`ngSrcset\` value directly.`);
   }
 }
 /**
@@ -12200,9 +12544,17 @@ function assertUnderDensityCap(dir, value) {
 
 
 function postInitInputChangeError(dir, inputName) {
+  let reason;
+
+  if (inputName === 'width' || inputName === 'height') {
+    reason = `Changing \`${inputName}\` may result in different attribute value ` + `applied to the underlying image element and cause layout shifts on a page.`;
+  } else {
+    reason = `Changing the \`${inputName}\` would have no effect on the underlying ` + `image element, because the resource loading has already occurred.`;
+  }
+
   return new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2953
   /* RuntimeErrorCode.UNEXPECTED_INPUT_CHANGE */
-  , `${imgDirectiveDetails(dir.ngSrc)} \`${inputName}\` was updated after initialization. ` + `The NgOptimizedImage directive will not react to this input change. ` + `To fix this, switch \`${inputName}\` a static value or wrap the image element ` + `in an *ngIf that is gated on the necessary value.`);
+  , `${imgDirectiveDetails(dir.ngSrc)} \`${inputName}\` was updated after initialization. ` + `The NgOptimizedImage directive will not react to this input change. ${reason} ` + `To fix this, either switch \`${inputName}\` to a static value ` + `or wrap the image element in an *ngIf that is gated on the necessary value.`);
 }
 /**
  * Verify that none of the listed inputs has changed.
@@ -12252,16 +12604,13 @@ function assertGreaterThanZero(dir, inputValue, inputName) {
 
 function assertNoImageDistortion(dir, img, renderer) {
   const removeListenerFn = renderer.listen(img, 'load', () => {
-    removeListenerFn(); // TODO: `clientWidth`, `clientHeight`, `naturalWidth` and `naturalHeight`
-    // are typed as number, but we run `parseFloat` (which accepts strings only).
-    // Verify whether `parseFloat` is needed in the cases below.
-
-    const renderedWidth = parseFloat(img.clientWidth);
-    const renderedHeight = parseFloat(img.clientHeight);
+    removeListenerFn();
+    const renderedWidth = img.clientWidth;
+    const renderedHeight = img.clientHeight;
     const renderedAspectRatio = renderedWidth / renderedHeight;
     const nonZeroRenderedDimensions = renderedWidth !== 0 && renderedHeight !== 0;
-    const intrinsicWidth = parseFloat(img.naturalWidth);
-    const intrinsicHeight = parseFloat(img.naturalHeight);
+    const intrinsicWidth = img.naturalWidth;
+    const intrinsicHeight = img.naturalHeight;
     const intrinsicAspectRatio = intrinsicWidth / intrinsicHeight;
     const suppliedWidth = dir.width;
     const suppliedHeight = dir.height;
@@ -12310,8 +12659,39 @@ function assertNonEmptyWidthAndHeight(dir) {
   if (missingAttributes.length > 0) {
     throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2954
     /* RuntimeErrorCode.REQUIRED_INPUT_MISSING */
-    , `${imgDirectiveDetails(dir.ngSrc)} these required attributes ` + `are missing: ${missingAttributes.map(attr => `"${attr}"`).join(', ')}. ` + `Including "width" and "height" attributes will prevent image-related layout shifts. ` + `To fix this, include "width" and "height" attributes on the image tag.`);
+    , `${imgDirectiveDetails(dir.ngSrc)} these required attributes ` + `are missing: ${missingAttributes.map(attr => `"${attr}"`).join(', ')}. ` + `Including "width" and "height" attributes will prevent image-related layout shifts. ` + `To fix this, include "width" and "height" attributes on the image tag or turn on ` + `"fill" mode with the \`fill\` attribute.`);
   }
+}
+/**
+ * Verifies that width and height are not set. Used in fill mode, where those attributes don't make
+ * sense.
+ */
+
+
+function assertEmptyWidthAndHeight(dir) {
+  if (dir.width || dir.height) {
+    throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2952
+    /* RuntimeErrorCode.INVALID_INPUT */
+    , `${imgDirectiveDetails(dir.ngSrc)} the attributes \`height\` and/or \`width\` are present ` + `along with the \`fill\` attribute. Because \`fill\` mode causes an image to fill its containing ` + `element, the size attributes have no effect and should be removed.`);
+  }
+}
+/**
+ * Verifies that the rendered image has a nonzero height. If the image is in fill mode, provides
+ * guidance that this can be caused by the containing element's CSS position property.
+ */
+
+
+function assertNonZeroRenderedHeight(dir, img, renderer) {
+  const removeListenerFn = renderer.listen(img, 'load', () => {
+    removeListenerFn();
+    const renderedHeight = img.clientHeight;
+
+    if (dir.fill && renderedHeight === 0) {
+      console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵformatRuntimeError"])(2952
+      /* RuntimeErrorCode.INVALID_INPUT */
+      , `${imgDirectiveDetails(dir.ngSrc)} the height of the fill-mode image is zero. ` + `This is likely because the containing element does not have the CSS 'position' ` + `property set to one of the following: "relative", "fixed", or "absolute". ` + `To fix this problem, make sure the container element has the CSS 'position' ` + `property defined and the height of the element is not zero.`));
+    }
+  });
 }
 /**
  * Verifies that the `loading` attribute is set to a valid input &
@@ -12332,6 +12712,60 @@ function assertValidLoadingInput(dir) {
     throw new _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵRuntimeError"](2952
     /* RuntimeErrorCode.INVALID_INPUT */
     , `${imgDirectiveDetails(dir.ngSrc)} the \`loading\` attribute ` + `has an invalid value (\`${dir.loading}\`). ` + `To fix this, provide a valid value ("lazy", "eager", or "auto").`);
+  }
+}
+/**
+ * Warns if NOT using a loader (falling back to the generic loader) and
+ * the image appears to be hosted on one of the image CDNs for which
+ * we do have a built-in image loader. Suggests switching to the
+ * built-in loader.
+ *
+ * @param ngSrc Value of the ngSrc attribute
+ * @param imageLoader ImageLoader provided
+ */
+
+
+function assertNotMissingBuiltInLoader(ngSrc, imageLoader) {
+  if (imageLoader === noopImageLoader) {
+    let builtInLoaderName = '';
+
+    for (const loader of BUILT_IN_LOADERS) {
+      if (loader.testUrl(ngSrc)) {
+        builtInLoaderName = loader.name;
+        break;
+      }
+    }
+
+    if (builtInLoaderName) {
+      console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵformatRuntimeError"])(2962
+      /* RuntimeErrorCode.MISSING_BUILTIN_LOADER */
+      , `NgOptimizedImage: It looks like your images may be hosted on the ` + `${builtInLoaderName} CDN, but your app is not using Angular's ` + `built-in loader for that CDN. We recommend switching to use ` + `the built-in by calling \`provide${builtInLoaderName}Loader()\` ` + `in your \`providers\` and passing it your instance's base URL. ` + `If you don't want to use the built-in loader, define a custom ` + `loader function using IMAGE_LOADER to silence this warning.`));
+    }
+  }
+}
+/**
+ * Warns if ngSrcset is present and no loader is configured (i.e. the default one is being used).
+ */
+
+
+function assertNoNgSrcsetWithoutLoader(dir, imageLoader) {
+  if (dir.ngSrcset && imageLoader === noopImageLoader) {
+    console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵformatRuntimeError"])(2963
+    /* RuntimeErrorCode.MISSING_NECESSARY_LOADER */
+    , `${imgDirectiveDetails(dir.ngSrc)} the \`ngSrcset\` attribute is present but ` + `no image loader is configured (i.e. the default one is being used), ` + `which would result in the same image being used for all configured sizes. ` + `To fix this, provide a loader or remove the \`ngSrcset\` attribute from the image.`));
+  }
+}
+/**
+ * Warns if loaderParams is present and no loader is configured (i.e. the default one is being
+ * used).
+ */
+
+
+function assertNoLoaderParamsWithoutLoader(dir, imageLoader) {
+  if (dir.loaderParams && imageLoader === noopImageLoader) {
+    console.warn((0,_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵformatRuntimeError"])(2963
+    /* RuntimeErrorCode.MISSING_NECESSARY_LOADER */
+    , `${imgDirectiveDetails(dir.ngSrc)} the \`loaderParams\` attribute is present but ` + `no image loader is configured (i.e. the default one is being used), ` + `which means that the loaderParams data will not be consumed and will not affect the URL. ` + `To fix this, provide a custom loader or remove the \`loaderParams\` attribute from the image.`));
   }
 }
 /**
