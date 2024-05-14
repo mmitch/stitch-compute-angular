@@ -309,9 +309,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "BUILD_INFO": () => (/* binding */ BUILD_INFO)
 /* harmony export */ });
 const BUILD_INFO = {
-    commit: 'bb446a0',
-    lastChange: '2024-04-30 20:15:45',
-    buildTime: '2024-04-30 20:17:11'
+    commit: '8b253b2',
+    lastChange: '2024-05-14 20:53:04',
+    buildTime: '2024-05-14 20:54:35'
 };
 
 
