@@ -13188,7 +13188,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 6646);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ 1203);
 /**
- * @license Angular v14.2.12
+ * @license Angular v14.3.0
  * (c) 2010-2022 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -23775,7 +23775,7 @@ class Version {
  */
 
 
-const VERSION = new Version('14.2.12');
+const VERSION = new Version('14.3.0');
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
