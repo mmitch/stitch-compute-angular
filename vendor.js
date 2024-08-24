@@ -57475,8 +57475,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_localize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/localize */ 9244);
 /**
- * @license Angular v17.1.1
- * (c) 2010-2022 Google LLC. https://angular.io/
+ * @license Angular v18.2.0
+ * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
 
@@ -57510,8 +57510,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵtranslate": () => (/* binding */ translate$1)
 /* harmony export */ });
 /**
- * @license Angular v17.1.1
- * (c) 2010-2022 Google LLC. https://angular.io/
+ * @license Angular v18.2.0
+ * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
 
@@ -57860,8 +57860,7 @@ function hash32(view, length, c) {
   }
 
   return mix(a, b, c)[2];
-} // clang-format off
-
+}
 
 function mix(a, b, c) {
   a -= b;
@@ -57892,8 +57891,7 @@ function mix(a, b, c) {
   c -= b;
   c ^= b >>> 15;
   return [a, b, c];
-} // clang-format on
-// Utils
+} // Utils
 
 
 var Endian;
@@ -58400,7 +58398,7 @@ function translate(messageParts, substitutions) {
  * ```
  *
  * This format is the same as that used for `i18n` markers in Angular templates. See the
- * [Angular i18n guide](guide/i18n-common-prepare#mark-text-in-component-template).
+ * [Angular i18n guide](guide/i18n/prepare#mark-text-in-component-template).
  *
  * **Naming placeholders**
  *
