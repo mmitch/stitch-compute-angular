@@ -57475,7 +57475,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_localize__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/localize */ 9244);
 /**
- * @license Angular v18.2.0
+ * @license Angular v18.2.7
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -57510,7 +57510,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ɵtranslate": () => (/* binding */ translate$1)
 /* harmony export */ });
 /**
- * @license Angular v18.2.0
+ * @license Angular v18.2.7
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -57593,16 +57593,16 @@ function computeDigest(message) {
  */
 
 
-function decimalDigest(message) {
-  return message.id || computeDecimalDigest(message);
+function decimalDigest(message, preservePlaceholders) {
+  return message.id || computeDecimalDigest(message, preservePlaceholders);
 }
 /**
  * Compute the message id using the XLIFF2/XMB/$localize digest.
  */
 
 
-function computeDecimalDigest(message) {
-  const visitor = new _SerializerIgnoreIcuExpVisitor();
+function computeDecimalDigest(message, preservePlaceholders) {
+  const visitor = new _SerializerIgnoreExpVisitor(preservePlaceholders);
   const parts = message.nodes.map(a => a.visit(visitor, null));
   return computeMsgId(parts.join(''), message.meaning);
 }
@@ -57655,14 +57655,24 @@ function serializeNodes(nodes) {
 /**
  * Serialize the i18n ast to something xml-like in order to generate an UID.
  *
- * Ignore the ICU expressions so that message IDs stays identical if only the expression changes.
+ * Ignore the expressions so that message IDs stays identical if only the expression changes.
  *
  * @internal
  */
 
 
-class _SerializerIgnoreIcuExpVisitor extends _SerializerVisitor {
-  visitIcu(icu, context) {
+class _SerializerIgnoreExpVisitor extends _SerializerVisitor {
+  constructor(preservePlaceholders) {
+    super();
+    this.preservePlaceholders = preservePlaceholders;
+  }
+
+  visitPlaceholder(ph, context) {
+    // Do not take the expression into account when `preservePlaceholders` is disabled.
+    return this.preservePlaceholders ? super.visitPlaceholder(ph, context) : `<ph name="${ph.name}"/>`;
+  }
+
+  visitIcu(icu) {
     let strCases = Object.keys(icu.cases).map(k => `${k} {${icu.cases[k].visit(this)}}`); // Do not take the expression into account
 
     return `{${icu.type}, ${strCases.join(', ')}}`;
